@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?logo=wordpress&logoColor=white" alt="WordPress 5.0+" />
-  <img src="https://img.shields.io/badge/PHP-7.4%2B-777bb4?logo=php&logoColor=white" alt="PHP 7.4+" />
-  <img src="https://img.shields.io/badge/License-GPL--2.0-blue" alt="GPL-2.0" />
-  <img src="https://img.shields.io/badge/Version-1.0.1-green" alt="v1.0.1" />
+  <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square&logo=wordpress&logoColor=white" alt="WordPress 5.0+" />
+  <img src="https://img.shields.io/badge/PHP-7.4%2B-777bb4?style=flat-square&logo=php&logoColor=white" alt="PHP 7.4+" />
+  <img src="https://img.shields.io/badge/License-GPL--2.0-blue?style=flat-square" alt="GPL-2.0" />
+  <img src="https://img.shields.io/badge/Version-1.0.1-green?style=flat-square" alt="v1.0.1" />
 </p>
 
 <h1 align="center">😊 xMojipick</h1>
