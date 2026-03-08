@@ -1,0 +1,308 @@
+/* ── Body overrides (plugin page only) ── */
+body.tools_page_xmojipick #wpcontent { padding-left: 0; }
+body.tools_page_xmojipick #wpbody-content { padding-bottom: 0; }
+body.tools_page_xmojipick .wrap { margin: 0; }
+body.tools_page_xmojipick #footer-thankyou,
+body.tools_page_xmojipick #footer-upgrade { display: none; }
+
+/* ── Shell ── */
+.xmojipick-shell {
+    width: auto;
+    max-width: none;
+    box-sizing: border-box;
+    border: 1px solid #cfd6dd;
+    background: #ffffff;
+    box-shadow: none;
+    overflow: hidden;
+    border-radius: 0;
+}
+
+/* ── Hero ── */
+.xmojipick-hero {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid #d7dde3;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+.xmojipick-hero-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.xmojipick-page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.xmojipick-page-head h1 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+}
+.xmojipick-title-mark {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 22px;
+}
+.xmojipick-title-mark .dashicons {
+    font-size: 21px;
+    width: 21px;
+    height: 21px;
+    line-height: 1;
+    color: #2d6ca3;
+}
+.xmojipick-title-text {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+}
+.xmojipick-page-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    color: #5c6570;
+    justify-content: flex-end;
+}
+.xmojipick-meta-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    padding: 0 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    text-decoration: none;
+    border-radius: 0;
+}
+.xmojipick-badge-kicker {
+    background: #edf4ff;
+    border-color: #c7daf8;
+    color: #315d9b;
+}
+.xmojipick-badge-version {
+    background: #eef8ee;
+    border-color: #cbe3cb;
+    color: #2f6a46;
+}
+.xmojipick-badge-author {
+    background: #fff1e6;
+    border-color: #f1d0b5;
+    color: #9a5a2e;
+    text-decoration: none;
+}
+.xmojipick-badge-author:hover { color: #7a4720; text-decoration: none; }
+.xmojipick-badge-repo {
+    background: #f6f7f7;
+    border-color: #d8dee5;
+    color: #56606b;
+    text-decoration: none;
+}
+.xmojipick-badge-repo:hover { color: #11161b; text-decoration: none; }
+.xmojipick-hero-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #56606b;
+    white-space: nowrap;
+}
+
+/* ── Tab Bar ── */
+.xmojipick-tabs-wrap {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 44px;
+    padding: 0 12px;
+    background: transparent;
+    border-bottom: 1px solid #d7dde3;
+}
+.xmojipick-admin-tabs {
+    display: flex;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    border-radius: 0;
+    width: auto;
+    z-index: 1;
+}
+.xmojipick-admin-tab {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid #d7dde3;
+    border-top: none;
+    border-bottom: none;
+    background: #ffffff;
+    color: #11161b;
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+    margin: 0;
+    margin-right: -1px;
+    cursor: pointer;
+    border-radius: 0;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.xmojipick-admin-tab .xmojipick-tab-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 1;
+    color: #11161b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 16px;
+    transition: color 0.18s ease;
+}
+.xmojipick-admin-tab .xmojipick-tab-icon .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+.xmojipick-admin-tab.is-active {
+    color: #11161b;
+    background: #ffffff;
+    border-color: #d7dde3;
+    border-bottom: none;
+    margin-bottom: -1px;
+    z-index: 2;
+}
+.xmojipick-admin-tab:hover {
+    color: #11161b;
+    background: #f8fbff;
+    border-color: #cfd8e2;
+    text-decoration: none;
+}
+.xmojipick-admin-tab:focus {
+    outline: none;
+    box-shadow: none;
+}
+.xmojipick-admin-tab.is-active:hover {
+    color: #11161b;
+    background: #ffffff;
+    border-color: #d7dde3;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+/* ── Tab Panels ── */
+.xmojipick-tab-panel {
+    display: none;
+    margin-top: 0;
+    padding: 0;
+    background: #ffffff;
+    border-top: none;
+}
+.xmojipick-tab-panel.is-active {
+    display: block;
+    animation: xmojipick-panel-in 0.22s ease;
+}
+@keyframes xmojipick-panel-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.xmojipick-panel-inner {
+    padding: 16px;
+}
+.xmojipick-panel-inner .form-table th {
+    padding: 10px 10px 10px 0;
+    font-weight: 600;
+    font-size: 13px;
+    color: #11161b;
+}
+.xmojipick-panel-inner .form-table td {
+    padding: 10px 0;
+    font-size: 13px;
+}
+
+/* ── Shared: preview, emojis ── */
+.xmojipick-preview-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+}
+.xmojipick-admin-emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.xmojipick-admin-emoji svg,
+.xmojipick-admin-emoji img {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    display: block;
+}
+
+/* ── Scanner ── */
+#xmojipick-scan-results { margin-top: 15px; }
+.xmojipick-scan-item {
+    background: #ffffff;
+    border: 1px solid #d7dde3;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.xmojipick-scan-item .scan-preview { display: flex; gap: 4px; }
+.xmojipick-scan-item .scan-preview img { width: 24px; height: 24px; border-radius: 0; }
+.xmojipick-scan-item .scan-info { flex: 1; font-size: 13px; color: #11161b; }
+.xmojipick-scan-item .scan-info strong { display: block; font-weight: 700; }
+.xmojipick-scan-item .scan-info span { color: #56606b; }
+
+/* ── Tables ── */
+.xmojipick-shell .widefat { border-radius: 0; border-color: #d8dee5; }
+.xmojipick-shell .widefat th,
+.xmojipick-shell .widefat td { font-size: 13px; }
+
+/* ── Form elements (sharp corners) ── */
+.xmojipick-shell .button,
+.xmojipick-shell input[type="text"],
+.xmojipick-shell input[type="url"],
+.xmojipick-shell input[type="number"],
+.xmojipick-shell select,
+.xmojipick-shell textarea { border-radius: 0 !important; }
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+    .xmojipick-hero { padding: 12px 14px 10px; }
+    .xmojipick-page-head { align-items: flex-start; }
+    .xmojipick-page-head h1 { font-size: 17px; }
+    .xmojipick-title-mark { width: 20px; height: 20px; flex-basis: 20px; }
+    .xmojipick-title-mark .dashicons { font-size: 19px; width: 19px; height: 19px; }
+    .xmojipick-hero-desc { white-space: normal; }
+}
+@media (max-width: 640px) {
+    .xmojipick-page-meta > * { min-height: 20px; padding: 0 6px; }
+    .xmojipick-admin-tab { flex: 1 1 calc(50% - 1px); }
+}
