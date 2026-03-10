@@ -155,6 +155,14 @@
             pickerEl = pickerBackup;
         }
 
+        /* Load pack data from <head> JSON element (PJAX-compatible) */
+        if (!settings.packs || !settings.packs.length) {
+            var packsEl = document.getElementById('xmojipick-packs-json');
+            if (packsEl && packsEl.textContent) {
+                try { settings.packs = JSON.parse(packsEl.textContent); } catch (e) {}
+            }
+        }
+
         /* Build picker dynamically if PHP hooks didn't fire (e.g. custom theme) */
         if (!pickerEl && settings.packs && settings.packs.length) {
             pickerEl = buildPicker(settings.packs);

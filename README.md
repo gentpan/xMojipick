@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square&logo=wordpress&logoColor=white" alt="WordPress 5.0+" />
   <img src="https://img.shields.io/badge/PHP-7.4%2B-777bb4?style=flat-square&logo=php&logoColor=white" alt="PHP 7.4+" />
   <img src="https://img.shields.io/badge/License-GPL--2.0-blue?style=flat-square" alt="GPL-2.0" />
-  <img src="https://img.shields.io/badge/Version-1.0.1-green?style=flat-square" alt="v1.0.1" />
+  <img src="https://img.shields.io/badge/Version-1.1.0-green?style=flat-square" alt="v1.1.0" />
 </p>
 
 <h1 align="center">😊 xMojipick</h1>
@@ -17,7 +17,7 @@
 ## 特性
 
 - **多表情包** — 每个 JSON 配置文件 = 一个 Tab，自由扩展
-- **多格式支持** — SVG 内联渲染零请求 + PNG/GIF/AVIF/WebP 图片表情
+- **多格式支持** — SVG / PNG / GIF / AVIF / WebP 表情统一外部 URL 加载
 - **三端渲染** — 前台评论、后台管理、邮件通知全部正确显示
 - **PJAX / SPA 兼容** — 支持 Lared、Westlife 等 PJAX 主题无刷新导航
 - **暗色模式** — 自动检测页面背景色，自动切换明暗主题

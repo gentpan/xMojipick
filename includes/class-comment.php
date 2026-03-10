@@ -13,6 +13,7 @@ class xMojipick_Comment
     {
         $this->loader = $loader;
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
+        add_action('wp_head', [$this, 'output_packs_json'], 99);
         add_action('comment_form_after_fields', [$this, 'output_picker_html']);
         add_action('comment_form_logged_in_after', [$this, 'output_picker_html']);
         add_action('comment_form_top', [$this, 'output_picker_html']);
@@ -82,39 +83,67 @@ class xMojipick_Comment
         ];
 
         /*
-         * Pass pack data so JS can build picker dynamically if PHP hooks
-         * don't fire (e.g. PJAX navigation to a page without standard
-         * comment_form hooks).  Only include on singular pages to avoid
-         * bloating every page with inline emoji data.
+         * Pack data is delivered via a <head> JSON element (output_packs_json)
+         * instead of wp_localize_script.  This allows PJAX/SPA themes to
+         * update it during head-switch when navigating between pages.
+         * wp_localize_script output lives in the footer and is never touched
+         * by PJAX, so packs would be stale after navigation.
          */
-        if (is_singular() && comments_open()) {
-            $packs = $this->loader->get_packs();
-            $js_packs = [];
-            foreach ($packs as $pack) {
-                $js_pack = [
-                    'id'        => $pack['id'],
-                    'name'      => $pack['name'],
-                    'is_inline' => !empty($pack['is_inline']),
-                    'emojis'    => [],
-                ];
-                foreach ($pack['emojis'] as $emoji) {
-                    $js_emoji = [
-                        'slug' => $emoji['slug'] ?? '',
-                        'name' => $emoji['name'] ?? ($emoji['slug'] ?? ''),
-                    ];
-                    if (!empty($emoji['svg'])) {
-                        $js_emoji['src'] = xMojipick_Loader::svg_to_data_uri($emoji['svg']);
-                    } elseif (!empty($emoji['url'])) {
-                        $js_emoji['src'] = $emoji['url'];
-                    }
-                    $js_pack['emojis'][] = $js_emoji;
-                }
-                $js_packs[] = $js_pack;
-            }
-            $settings['packs'] = $js_packs;
-        }
-
         wp_localize_script('xmojipick', 'xmojipickSettings', $settings);
+    }
+
+    /**
+     * Output packs JSON in <head> so PJAX/SPA head-switch can update it.
+     *
+     * wp_localize_script puts data next to the script in the footer,
+     * which PJAX never touches.  A <head> JSON element lets the PJAX
+     * head-switch automatically deliver fresh pack data when navigating
+     * between pages (e.g. homepage → post).
+     *
+     * On non-singular pages an empty element is output as a placeholder;
+     * PJAX will replace it with the full data from the target page.
+     */
+    public function output_packs_json()
+    {
+        $json = '';
+        if (is_singular() && comments_open()) {
+            $js_packs = $this->build_js_packs();
+            if ($js_packs) {
+                $json = wp_json_encode($js_packs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            }
+        }
+        echo '<script type="application/json" id="xmojipick-packs-json">' . $json . '</script>';
+    }
+
+    /**
+     * Build the JS-ready packs array from the loader's pack data.
+     *
+     * @return array<int, array{id: string, name: string, is_inline: bool, emojis: array}>
+     */
+    private function build_js_packs(): array
+    {
+        $packs    = $this->loader->get_packs();
+        $js_packs = [];
+        foreach ($packs as $pack) {
+            $js_pack = [
+                'id'        => $pack['id'],
+                'name'      => $pack['name'],
+                'is_inline' => false,
+                'emojis'    => [],
+            ];
+            foreach ($pack['emojis'] as $emoji) {
+                $js_emoji = [
+                    'slug' => $emoji['slug'] ?? '',
+                    'name' => $emoji['name'] ?? ($emoji['slug'] ?? ''),
+                ];
+                if (!empty($emoji['url'])) {
+                    $js_emoji['src'] = $emoji['url'];
+                }
+                $js_pack['emojis'][] = $js_emoji;
+            }
+            $js_packs[] = $js_pack;
+        }
+        return $js_packs;
     }
 
     public function output_picker_html()
@@ -135,8 +164,7 @@ class xMojipick_Comment
         $first = true;
         foreach ($packs as $pack) {
             $active   = $first ? ' xmojipick-active' : '';
-            $is_img   = !$pack['is_inline'];
-            $lazy     = (!$first && $is_img) ? ' data-lazy="1"' : '';
+            $lazy     = !$first ? ' data-lazy="1"' : '';
 
             printf(
                 '<div class="xmojipick-grid%s" data-pack="%s"%s>',
@@ -152,17 +180,11 @@ class xMojipick_Comment
                 echo '<button type="button" class="xmojipick-item" data-code="' . esc_attr($slug) . '" title="' . esc_attr($name) . '">';
 
                 if (!empty($emoji['url'])) {
-                    $src_attr = ($first || !$is_img || empty($lazy)) ? 'src' : 'data-src';
+                    $src_attr = ($first || empty($lazy)) ? 'src' : 'data-src';
                     printf(
                         '<img %s="%s" alt="%s" loading="lazy" data-no-lazy="1" data-skip-lazy="1" class="no-lazy skip-lazy" />',
                         $src_attr,
                         esc_attr($emoji['url']),
-                        esc_attr($name)
-                    );
-                } elseif (!empty($emoji['svg'])) {
-                    printf(
-                        '<img src="%s" alt="%s" data-no-lazy="1" data-skip-lazy="1" class="no-lazy skip-lazy" />',
-                        esc_attr(xMojipick_Loader::svg_to_data_uri($emoji['svg'])),
                         esc_attr($name)
                     );
                 }
@@ -207,12 +229,6 @@ class xMojipick_Comment
             return sprintf(
                 '<span class="xmojipick-tab-icon" style="background-image:url(\'%s\')"></span>',
                 esc_url_raw($first['url'])
-            );
-        }
-        if (!empty($first['svg'])) {
-            return sprintf(
-                '<span class="xmojipick-tab-icon" style="background-image:url(%s)"></span>',
-                xMojipick_Loader::svg_to_data_uri($first['svg'])
             );
         }
         return esc_html(mb_substr($pack['name'], 0, 1));

@@ -63,12 +63,6 @@ class xMojipick_Loader
             $pack_path = substr($pack_id, 5); // Strip 'pack-' prefix
 
             foreach ($data['emojis'] as &$emoji) {
-                if (!empty($emoji['svg'])) {
-                    $emoji['svg'] = preg_replace('/<!DOCTYPE[^>]*>/i', '', $emoji['svg']);
-                    $emoji['svg'] = preg_replace('/<\?xml[^>]*\?>/i', '', $emoji['svg']);
-                    $emoji['svg'] = trim($emoji['svg']);
-                    continue;
-                }
                 if (!empty($emoji['file'])) {
                     $emoji['url'] = XMOJIPICK_URL . 'assets/packs/' . $pack_path . '/' . $emoji['file'];
                 }
@@ -77,7 +71,7 @@ class xMojipick_Loader
 
             $data['id']        = $pack_id;
             $data['path']      = $pack_path;
-            $data['is_inline'] = !empty($data['emojis'][0]['svg']);
+            $data['is_inline'] = false;
 
             $packs[] = $data;
         }
@@ -194,12 +188,7 @@ class xMojipick_Loader
                 'name' => $name,
             ];
 
-            if ($ext === 'svg') {
-                $svg_content = file_get_contents($dir . '/' . $file);
-                $emoji['svg'] = self::clean_svg($svg_content);
-            } else {
-                $emoji['file'] = $file;
-            }
+            $emoji['file'] = $file;
 
             $emojis[] = $emoji;
         }
@@ -323,9 +312,6 @@ class xMojipick_Loader
         $bg_url = '';
         if (!empty($emoji['url'])) {
             $bg_url = esc_url_raw($emoji['url']);
-        } elseif (!empty($emoji['svg'])) {
-            $svg = self::clean_svg($emoji['svg']);
-            $bg_url = self::svg_to_data_uri($svg);
         }
         if (!$bg_url) {
             return '';
@@ -346,12 +332,6 @@ class xMojipick_Loader
     {
         if (!empty($emoji['url'])) {
             return '<img src="' . esc_attr($emoji['url']) . '" alt="'
-                . esc_attr($emoji['name'])
-                . '" width="28" height="28" style="vertical-align:middle;" />';
-        }
-        if (!empty($emoji['svg'])) {
-            $uri = self::svg_to_data_uri(self::clean_svg($emoji['svg']));
-            return '<img src="' . $uri . '" alt="'
                 . esc_attr($emoji['name'])
                 . '" width="28" height="28" style="vertical-align:middle;" />';
         }
