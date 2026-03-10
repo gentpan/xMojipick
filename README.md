@@ -22,7 +22,7 @@
 - **PJAX / SPA 兼容** — 支持 Lared、Westlife 等 PJAX 主题无刷新导航
 - **暗色模式** — 自动检测页面背景色，自动切换明暗主题
 - **懒加载** — 非活动 Tab 图片按需加载，节省带宽
-- **SVG 安全过滤** — 自动移除 `<script>`、事件处理器等危险代码
+- **SVG 安全过滤** — 生成 JSON 时自动清洗 SVG，移除 `<script>`、事件处理器等危险代码
 - **键盘导航** — 方向键选择表情，Enter 插入，Esc 关闭
 - **轻量高效** — CSS 10KB + JS 14KB（minified），无第三方依赖
 
@@ -76,27 +76,13 @@
     {
       "slug": "smile",
       "name": "微笑",
-      "svg": "<svg viewBox=\"0 0 64 64\">...</svg>"
+      "file": "微笑.svg"
     }
   ]
 }
 ```
 
-**图片格式表情包：**
-
-```json
-{
-  "name": "表情包名称",
-  "sort": 2,
-  "emojis": [
-    {
-      "slug": "hello",
-      "name": "你好",
-      "file": "hello.png"
-    }
-  ]
-}
-```
+所有格式（SVG / PNG / GIF 等）统一使用 `file` 字段引用文件名，图片文件放在同名文件夹下。
 
 ### 字段说明
 
@@ -106,8 +92,7 @@
 | `sort` | 排序，数字越小越靠前 |
 | `emojis[].slug` | 表情标识符，用于 `:slug:` 短代码 |
 | `emojis[].name` | 表情名称，用于 title 提示 |
-| `emojis[].svg` | SVG 代码（内联渲染，零请求） |
-| `emojis[].file` | 图片文件名（相对于表情包文件夹） |
+| `emojis[].file` | 图片文件名（相对于表情包文件夹），支持 SVG/PNG/GIF/AVIF/WebP/JPG |
 
 ## 文件结构
 
@@ -141,11 +126,11 @@ xmojipick/
 
 ## 技术细节
 
-- **渲染方式**：SVG 表情使用 `data:image/svg+xml;base64` 内联到 `background-image`，零额外请求
+- **渲染方式**：所有表情（含 SVG）统一通过外部文件 URL 加载，使用 `background-image` 渲染
 - **短代码格式**：`:slug:` 存储在评论文本中，渲染时替换为表情元素
 - **缓存机制**：表情包数据使用 WordPress Transient API 缓存
 - **资源加载**：支持 `SCRIPT_DEBUG` 常量切换开发版/压缩版
-- **安全**：SVG 经过 `wp_kses` 白名单过滤 + 自定义 `clean_svg` 清洗
+- **安全**：SVG 文件在生成 JSON 时经过 `clean_svg` 安全清洗
 
 ## 兼容性
 

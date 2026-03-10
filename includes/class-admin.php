@@ -232,7 +232,9 @@ class xMojipick_Admin
                                 $pid     = basename($file, '.json');
                                 $is_dis  = in_array($pid, $disabled, true);
                                 $count   = count($data['emojis'] ?? []);
-                                $type    = (!empty($data['emojis'][0]['svg'])) ? 'SVG' : 'Image';
+                                $first_file = $data['emojis'][0]['file'] ?? '';
+                                $ext = strtolower(pathinfo($first_file, PATHINFO_EXTENSION));
+                                $type = strtoupper($ext) ?: 'Image';
                                 $path    = str_replace('pack-', '', $pid);
                             ?>
                                 <tr>
@@ -244,9 +246,7 @@ class xMojipick_Admin
                                         <?php
                                         $preview = array_slice($data['emojis'] ?? [], 0, 10);
                                         foreach ($preview as $e) {
-                                            if (!empty($e['svg'])) {
-                                                echo '<span class="xmojipick-admin-emoji">' . wp_kses($e['svg'], self::allowed_svg_tags()) . '</span>';
-                                            } elseif (!empty($e['file'])) {
+                                            if (!empty($e['file'])) {
                                                 $url = XMOJIPICK_URL . 'assets/packs/' . $path . '/' . $e['file'];
                                                 echo '<span class="xmojipick-admin-emoji"><img src="' . esc_url($url) . '" /></span>';
                                             }
