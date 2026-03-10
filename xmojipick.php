@@ -3,7 +3,7 @@
  * Plugin Name: xMojipick
  * Plugin URI:  https://github.com/gentpan/xMojipick
  * Description: 多表情包表情插件，支持 SVG/PNG/GIF/AVIF/WebP，评论区/后台/邮件渲染
- * Version:     1.0.1
+ * Version:     1.1.0
  * Author:      xMojipick
  * License:     GPL-2.0-or-later
  * Text Domain: xmojipick
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('XMOJIPICK_VERSION', '1.0.1');
+define('XMOJIPICK_VERSION', '1.1.0');
 define('XMOJIPICK_DIR', plugin_dir_path(__FILE__));
 define('XMOJIPICK_URL', plugin_dir_url(__FILE__));
 
